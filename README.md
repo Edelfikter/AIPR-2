@@ -6,6 +6,16 @@
   <img src="assets/logo.svg" alt="AIPR Logo" width="250">
 </div>
 
+---
+
+## 🏃 Want to run this immediately?
+
+**👉 [See QUICKSTART.md](QUICKSTART.md) - Get running in under 2 minutes!**
+
+For full setup with all features, continue reading below.
+
+---
+
 ## ✨ Features
 
 - **3D Interactive Globe** - Stunning WebGL globe focused on the Indian subcontinent with smooth controls
