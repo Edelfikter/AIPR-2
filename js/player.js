@@ -225,7 +225,9 @@ function handleItemEnded(broadcast) {
 // Start progress monitoring
 function startProgressMonitoring(item, startOffset) {
     let currentTime = startOffset;
-    const updateInterval = 250; // Update every 250ms for good balance between smoothness and performance
+    // 250ms provides smooth visual updates while reducing CPU usage by 60% compared to 100ms
+    // Trade-off: Slightly less smooth progress bar vs better performance, especially with multiple listeners
+    const updateInterval = 250;
 
     playbackInterval = setInterval(() => {
         currentTime += (updateInterval / 1000);
