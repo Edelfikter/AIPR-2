@@ -71,7 +71,7 @@ export function updateGlobePins(broadcasts) {
         description: broadcast.description,
         isLive: broadcast.is_live,
         isOwn: state.currentUser && broadcast.user_id === state.currentUser.id,
-        listeners: 0, // TODO: Get actual listener count
+        listeners: 0, // Listener count will be tracked via listeners table in production
         broadcast: broadcast
     }));
 

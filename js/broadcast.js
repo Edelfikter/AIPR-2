@@ -117,7 +117,8 @@ function setupTrackHandlers() {
 async function loadVideoPreview(videoId) {
     try {
         // Use YouTube IFrame API to get video info
-        // For now, we'll create a simple preview
+        // Note: Using default 3-minute duration. In production, implement actual duration fetch
+        // via YouTube Data API or by loading the player and querying getDuration()
         const thumbnail = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
         
         currentTrackData = {

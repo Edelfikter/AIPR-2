@@ -153,12 +153,22 @@ In your Supabase dashboard:
 
 ### 5. Configure Your App
 
+**Option 1: Direct configuration (Quick start)**
+
 Edit `js/app.js` and replace the placeholder values:
 
 ```javascript
 const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // e.g., https://xxxxx.supabase.co
 const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Your anon/public key
 ```
+
+**Option 2: Config file (Recommended for production)**
+
+1. Copy `config.example.js` to `config.js`
+2. Fill in your Supabase credentials in `config.js`
+3. `config.js` is already in `.gitignore` and won't be committed
+
+Note: For production deployments, consider using environment variables.
 
 ### 6. Run the App
 
@@ -257,6 +267,14 @@ The app is modular, so you can easily extend it:
 - Edge 90+
 
 WebGL and Web Audio API support required.
+
+## 🔒 Security Notes
+
+- Never commit real Supabase credentials to version control
+- Use the `config.js` approach (with `.gitignore`) or environment variables
+- The anon/public key is safe for client-side use (Supabase handles permissions via RLS)
+- For production, consider implementing rate limiting and additional security measures
+- CDN resources should use Subresource Integrity (SRI) hashes in production
 
 ## 🐛 Troubleshooting
 

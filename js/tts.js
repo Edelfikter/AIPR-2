@@ -145,6 +145,7 @@ async function applyRadioFilter(samBuffer, reverbIntensity) {
 function makeBitCrusherCurve(bits) {
     const samples = 256;
     const curve = new Float32Array(samples);
+    // Step size determines quantization levels for bit crushing effect
     const step = Math.pow(0.5, bits);
 
     for (let i = 0; i < samples; i++) {

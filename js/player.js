@@ -225,9 +225,10 @@ function handleItemEnded(broadcast) {
 // Start progress monitoring
 function startProgressMonitoring(item, startOffset) {
     let currentTime = startOffset;
+    const updateInterval = 250; // Update every 250ms for good balance between smoothness and performance
 
     playbackInterval = setInterval(() => {
-        currentTime += 0.1;
+        currentTime += (updateInterval / 1000);
 
         // Update mini player or info panel progress
         const progress = (currentTime / item.duration) * 100;
@@ -236,7 +237,7 @@ function startProgressMonitoring(item, startOffset) {
         if (currentTime >= item.duration) {
             clearInterval(playbackInterval);
         }
-    }, 100);
+    }, updateInterval);
 }
 
 // Update progress bar
@@ -274,8 +275,8 @@ function stopPlayback() {
         try {
             youtubePlayer.stopVideo();
             youtubePlayer.destroy();
-        } catch (e) {
-            // Ignore errors
+        } catch (error) {
+            console.debug('Error stopping YouTube player:', error);
         }
         youtubePlayer = null;
     }

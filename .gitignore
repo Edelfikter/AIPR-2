@@ -1,0 +1,21 @@
+# Configuration
+config.js
+
+# Dependencies (if using npm/node in future)
+node_modules/
+package-lock.json
+
+# Build artifacts
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

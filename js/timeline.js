@@ -5,7 +5,8 @@ let timelineItems = [];
 
 // Update timeline with a new item
 export function updateTimeline(item) {
-    item.id = Date.now() + Math.random(); // Simple unique ID
+    // Generate unique ID using crypto API for better uniqueness
+    item.id = crypto.randomUUID ? crypto.randomUUID() : Date.now() + Math.random();
     timelineItems.push(item);
     renderTimeline();
 }
