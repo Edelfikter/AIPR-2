@@ -1,0 +1,20 @@
+<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Green A Circle -->
+  <circle cx="30" cy="30" r="20" fill="#2ecc71"/>
+  <text x="30" y="38" font-family="Space Mono, monospace" font-size="24" font-weight="bold" fill="#0a1612" text-anchor="middle">A</text>
+  
+  <!-- Olive I Circle -->
+  <circle cx="70" cy="30" r="20" fill="#a8a052"/>
+  <text x="70" y="38" font-family="Space Mono, monospace" font-size="24" font-weight="bold" fill="#0a1612" text-anchor="middle">I</text>
+  
+  <!-- Blue P Circle -->
+  <circle cx="110" cy="30" r="20" fill="#6b8cce"/>
+  <text x="110" y="38" font-family="Space Mono, monospace" font-size="24" font-weight="bold" fill="#0a1612" text-anchor="middle">P</text>
+  
+  <!-- Orange R Circle -->
+  <circle cx="150" cy="30" r="20" fill="#e67e4a"/>
+  <text x="150" y="38" font-family="Space Mono, monospace" font-size="24" font-weight="bold" fill="#0a1612" text-anchor="middle">R</text>
+  
+  <!-- ALL INDIA PUBLIC RADIO text in magenta -->
+  <text x="90" y="75" font-family="Space Mono, monospace" font-size="12" font-weight="bold" fill="#c44b99" text-anchor="middle">ALL INDIA PUBLIC RADIO</text>
+</svg>

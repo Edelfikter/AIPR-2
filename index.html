@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All India Public Radio (AIPR) - Community Radio Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 3D Globe Container (always visible) -->
+    <div id="globe-container"></div>
+
+    <!-- AIPR Logo (bottom-left corner) -->
+    <div id="logo-container">
+        <img src="assets/logo.svg" alt="AIPR Logo" id="aipr-logo">
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <nav id="nav-bar">
+        <div id="auth-status">
+            <span id="username-display"></span>
+            <button id="login-btn" class="nav-btn">Sign In</button>
+            <button id="signup-btn" class="nav-btn">Sign Up</button>
+            <button id="logout-btn" class="nav-btn" style="display: none;">Logout</button>
+        </div>
+        <button id="create-broadcast-btn" class="primary-btn" style="display: none;">Create Broadcast</button>
+    </nav>
+
+    <!-- Broadcast Editor Modal -->
+    <div id="broadcast-editor" class="modal" style="display: none;">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2>Create Your Broadcast</h2>
+                <button class="close-btn" id="close-editor">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Station Details -->
+                <div class="form-section">
+                    <label for="station-name">Station Name</label>
+                    <input type="text" id="station-name" placeholder="My Awesome Radio Station" maxlength="50">
+                    
+                    <label for="station-description">Description</label>
+                    <textarea id="station-description" placeholder="Tell listeners about your station..." rows="3" maxlength="200"></textarea>
+                    
+                    <label for="station-location">Station Location (click on globe to set)</label>
+                    <div id="station-coords" class="coords-display">
+                        <span>Lat: <span id="station-lat">28.6139</span>, Lng: <span id="station-lng">77.2090</span></span>
+                        <small>Click anywhere on the globe to place your station pin</small>
+                    </div>
+                </div>
+
+                <!-- Timeline Section -->
+                <div class="form-section">
+                    <h3>Timeline</h3>
+                    <div id="timeline-container">
+                        <div id="timeline-tracks"></div>
+                        <div id="timeline-duration">Total Duration: <span id="total-duration">0:00</span></div>
+                    </div>
+                </div>
+
+                <!-- Add Track Section -->
+                <div class="form-section">
+                    <h3>Add YouTube Track</h3>
+                    <div class="track-input-group">
+                        <input type="text" id="youtube-url" placeholder="Paste YouTube URL here">
+                        <button id="add-track-btn" class="secondary-btn">Add Track</button>
+                    </div>
+                    <div id="track-preview" style="display: none;">
+                        <div id="track-thumbnail"></div>
+                        <div class="track-controls">
+                            <label>Trim Start (seconds)</label>
+                            <input type="number" id="trim-start" value="0" min="0">
+                            
+                            <label>Trim End (seconds)</label>
+                            <input type="number" id="trim-end" value="0" min="0">
+                            
+                            <label>Fade In (seconds)</label>
+                            <input type="range" id="fade-in" min="0" max="10" value="0" step="0.5">
+                            <span id="fade-in-val">0s</span>
+                            
+                            <label>Fade Out (seconds)</label>
+                            <input type="range" id="fade-out" min="0" max="10" value="0" step="0.5">
+                            <span id="fade-out-val">0s</span>
+                            
+                            <button id="confirm-track-btn" class="primary-btn">Add to Timeline</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add TTS Section -->
+                <div class="form-section">
+                    <h3>Add TTS Callout</h3>
+                    <textarea id="tts-text" placeholder="Type what SAM should say (e.g., 'You are listening to Radio Station Delhi')" rows="2"></textarea>
+                    <div class="tts-controls">
+                        <label>Reverb Intensity</label>
+                        <select id="reverb-intensity">
+                            <option value="subtle">Subtle</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="heavy">Heavy</option>
+                        </select>
+                        <button id="preview-tts-btn" class="secondary-btn">Preview</button>
+                        <button id="add-tts-btn" class="secondary-btn">Add to Timeline</button>
+                    </div>
+                </div>
+
+                <!-- Broadcast Options -->
+                <div class="form-section broadcast-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="loop-broadcast" checked>
+                        <span>Loop broadcast forever</span>
+                    </label>
+                    
+                    <label>Schedule (leave blank to go live immediately)</label>
+                    <input type="datetime-local" id="scheduled-time">
+                </div>
+
+                <button id="go-live-btn" class="primary-btn large">GO LIVE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modals -->
+    <div id="login-modal" class="modal" style="display: none;">
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h2>Sign In</h2>
+                <button class="close-btn" id="close-login">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button id="login-submit-btn" class="primary-btn">Sign In</button>
+                <p class="auth-message" id="login-message"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="signup-modal" class="modal" style="display: none;">
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h2>Sign Up</h2>
+                <button class="close-btn" id="close-signup">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="signup-username" placeholder="Username" required maxlength="20">
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Password" required minlength="6">
+                <button id="signup-submit-btn" class="primary-btn">Sign Up</button>
+                <p class="auth-message" id="signup-message"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Now Broadcasting Mini Player (appears when live) -->
+    <div id="mini-player" style="display: none;">
+        <div class="mini-player-header">
+            <span class="live-indicator">● LIVE</span>
+            <span id="mini-station-name">My Station</span>
+        </div>
+        <div class="mini-player-body">
+            <div id="mini-current-track">Loading...</div>
+            <div id="mini-progress-bar">
+                <div id="mini-progress-fill"></div>
+            </div>
+            <div id="mini-stats">
+                <span>👥 <span id="mini-listeners">0</span> listeners</span>
+            </div>
+        </div>
+        <button id="stop-broadcast-btn" class="danger-btn">Stop Broadcasting</button>
+    </div>
+
+    <!-- Station Info Panel (when clicking a pin) -->
+    <div id="station-info" style="display: none;">
+        <div class="station-info-header">
+            <h3 id="info-station-name">Station Name</h3>
+            <button class="close-btn" id="close-station-info">&times;</button>
+        </div>
+        <div class="station-info-body">
+            <p id="info-station-description">Description goes here</p>
+            <div id="info-now-playing">
+                <strong>Now Playing:</strong>
+                <div id="info-current-track">Loading...</div>
+            </div>
+            <div id="info-stats">
+                👥 <span id="info-listeners">0</span> listening
+            </div>
+            <button id="tune-in-btn" class="primary-btn">Tune In</button>
+            <button id="stop-listening-btn" class="secondary-btn" style="display: none;">Stop Listening</button>
+        </div>
+    </div>
+
+    <!-- Global Chat Box (bottom-right corner) -->
+    <div id="chat-container">
+        <div class="chat-header">
+            <span>🌍 Global Chat</span>
+            <button id="toggle-chat" class="chat-toggle">−</button>
+        </div>
+        <div id="chat-body">
+            <div id="chat-messages"></div>
+            <div class="chat-input-group">
+                <input type="text" id="chat-input" placeholder="Type a message..." maxlength="200">
+                <button id="chat-send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dependencies -->
+    <script src="https://unpkg.com/globe.gl"></script>
+    <script src="https://unpkg.com/three@0.150.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://unpkg.com/sam-js@0.1.6/dist/sam.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>
